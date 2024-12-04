@@ -34,7 +34,7 @@ body {
 	min-width: 320px;
 	min-height: 100vh;
 	/* background-color: #111827; */
-	background-image: url("https://i.pinimg.com/originals/55/1f/15/551f15cf205c8a83518890a842990a0e.jpg") !important;
+	background-image: url("./assets/bg.jpg") !important;
 	background-size: cover !important;
 	background-position: center !important;
 	background-attachment: fixed !important;
