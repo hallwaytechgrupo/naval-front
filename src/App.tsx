@@ -10,7 +10,7 @@ import io from "socket.io-client";
 import PositionBoard from "./components/PositionBoard";
 import AttackBoard from "./components/AttackBoard";
 
-const socket = io("https://lobster-app-5i3ni.ondigitalocean.app");
+const socket = io("http://localhost:3001");
 
 function App() {
 	const [playerId, setPlayerId] = useState<number | null>(null);
