@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import bgImage from './assets/bg.jpg';
 
 interface PlayerIdModalProps {
 	onSubmit: (id: number) => void;
@@ -21,8 +22,7 @@ const PlayerIdModal: React.FC<PlayerIdModalProps> = ({ onSubmit }) => {
 		<div
 			className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75"
 			style={{
-				backgroundImage:
-					"url(src/assets/bg.jpg)",
+				backgroundImage: `url(${bgImage})`,
 				backgroundSize: "cover",
 				backgroundPosition: "center",
 			}}

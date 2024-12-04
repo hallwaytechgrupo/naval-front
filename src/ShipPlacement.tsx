@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ships } from "./entities/ships";
 
 interface ShipPlacementProps {
@@ -21,6 +21,30 @@ const ShipPlacement: React.FC<ShipPlacementProps> = ({ onShipSelected }) => {
 		setSelectedShip(ship);
 		onShipSelected(ship, orientation);
 	};
+
+	useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'H' || event.key === 'h') {
+        setOrientation('horizontal');
+				onShipSelected(selectedShip, 'horizontal');
+      } else if (event.key === 'V' || event.key === 'v') {
+        setOrientation('vertical');
+				onShipSelected(selectedShip, 'vertical');
+      } else if (['1', '2', '3', '4', '5'].includes(event.key)) {
+		const shipIndex = Number(event.key) - 1;
+		if (shipIndex >= 0 && shipIndex < ships.length) {
+		  setSelectedShip(ships[shipIndex]);
+		  onShipSelected(ships[shipIndex], orientation);
+		}
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
 	return (
 		<div
