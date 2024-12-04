@@ -16,7 +16,7 @@ const socketUrl =
 		? import.meta.env.VITE_SOCKET_URL_PROD
 		: import.meta.env.VITE_SOCKET_URL_DEV;
 
-const socket = io(socketUrl);
+const socket = io("https://lobster-app-5i3ni.ondigitalocean.app");
 
 function App() {
 	// const [playerId, setPlayerId] = useState<number | null>(null);
