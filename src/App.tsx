@@ -11,7 +11,7 @@ import PositionBoard from "./components/PositionBoard";
 import AttackBoard from "./components/AttackBoard";
 
 const socketUrl =
-  import.meta.env.NODE_ENV === "production"
+  import.meta.env.DEV_OR_PROD === "prod"
     ? import.meta.env.VITE_SOCKET_URL_PROD
     : import.meta.env.VITE_SOCKET_URL_DEV;
 
