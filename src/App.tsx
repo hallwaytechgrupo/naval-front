@@ -11,10 +11,10 @@ import PositionBoard from "./components/PositionBoard";
 import AttackBoard from "./components/AttackBoard";
 import { usePlayer } from "./utils/PlayerContext";
 
-const socketUrl =
-	import.meta.env.DEV_OR_PROD === "prod"
-		? import.meta.env.VITE_SOCKET_URL_PROD
-		: import.meta.env.VITE_SOCKET_URL_DEV;
+// const socketUrl =
+// 	import.meta.env.DEV_OR_PROD === "prod"
+// 		? import.meta.env.VITE_SOCKET_URL_PROD
+// 		: import.meta.env.VITE_SOCKET_URL_DEV;
 
 const socket = io("https://lobster-app-5i3ni.ondigitalocean.app");
 
