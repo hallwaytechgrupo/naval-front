@@ -54,8 +54,54 @@ function App() {
 
 		socket.on("connect", () => {
 			console.log("Conectado ao servidor:", socket.id);
-			console.log("testando emissao");
-			socket.emit("restaurarEstado");
+			console.log("Recuperando estado do player");
+			socket.emit("solicitarEstado");
+		});
+
+		socket.on("estadoAtual", (response) => {
+			if (response.sucesso) {
+				console.log("Estado atual recebido:", response.estado);
+				const { estado } = response;
+				// Restaure o estado do jogo com base no memento recebido
+				const playerId = localStorage.getItem('playerId');
+				console.log("playerId:", playerId);
+				if (playerId !== null) {
+					console.log("Fase recebida do memento:", estado.fase);
+					if (estado.fase === 0) {
+						setFase("posicionamento");
+						setTitle("Fase de posicionamento");
+						setJogadorAtual(999);
+					} else if (estado.fase === 1) {
+						setFase("ataque");
+						setTitle("Fase de ataque");
+					} else if (estado.fase === 2) {
+						setFase("fim");
+						setTitle("Fim de jogo");
+					}
+
+
+					setPositionMatrix(estado.tabuleiros[playerId].dePosicionamento.grade);
+					setAttackMatrix(estado.tabuleiros[playerId].deAtaque.grade);
+					setPositionedShips(new Set(estado.positionedShips));
+					const [pontuacao0, pontuacao1] = estado.pontuacao;
+					if (Number(playerId) === 0) {
+						const { posicoesAtingidas, posicoesTotais } = pontuacao0;
+						setMinhaPontuacao({ posicoesAtingidas, posicoesTotais });
+
+						const { posicoesAtingidas: inimigoPosicoesAtingidas, posicoesTotais: inimigoPosicoesTotais } = pontuacao1;
+						setPontuacaoInimiga({ posicoesAtingidas: inimigoPosicoesAtingidas, posicoesTotais: inimigoPosicoesTotais });
+					} else {
+						const { posicoesAtingidas, posicoesTotais } = pontuacao0;
+						setPontuacaoInimiga({ posicoesAtingidas, posicoesTotais });
+
+						const { posicoesAtingidas: inimigoPosicoesAtingidas, posicoesTotais: inimigoPosicoesTotais } = pontuacao1;
+						setMinhaPontuacao({ posicoesAtingidas: inimigoPosicoesAtingidas, posicoesTotais: inimigoPosicoesTotais });
+					}
+					setJogadorAtual(estado.turnoAtual);
+				}
+			} else {
+				console.log("Falha ao restaurar estado:", response.mensagem);
+			}
 		});
 
 		// FIX - Preciso arrumar
@@ -108,6 +154,9 @@ function App() {
 					});
 					return newMatrix;
 				});
+			} else {
+				console.log("mensagem:", mensagem);
+				setMessage(mensagem);
 			}
 		});
 
@@ -194,7 +243,9 @@ function App() {
 				setOrientation("horizontal");
 				setPositionedShips(new Set());
 				setSelectedShip(null);
-				setPositionMatrix(Array.from({ length: 10 }, () => Array(10).fill(null)));
+				setPositionMatrix(
+					Array.from({ length: 10 }, () => Array(10).fill(null)),
+				);
 				setAttackMatrix(Array.from({ length: 10 }, () => Array(10).fill(null)));
 				setResponses([]);
 				setTitle("Fase de posicionamento");
@@ -252,9 +303,15 @@ function App() {
 			console.log("Pontuação atualizada");
 			console.log("Pontuação:", response);
 
-			const [minha, inimiga] = response;
-			setMinhaPontuacao(minha);
-			setPontuacaoInimiga(inimiga);
+			const playerId = Number(localStorage.getItem("playerId"));
+			const [pontuacao0, pontuacao1] = response;
+			if (playerId === 0) {
+				setMinhaPontuacao(pontuacao0);
+				setPontuacaoInimiga(pontuacao1);
+			} else {
+				setMinhaPontuacao(pontuacao1);
+				setPontuacaoInimiga(pontuacao0);
+			}
 		});
 
 		socket.on("navioPosicionado", (resultado) => {
