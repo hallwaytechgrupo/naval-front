@@ -25,7 +25,7 @@ function App() {
 	const [orientation, setOrientation] = useState<"horizontal" | "vertical">(
 		"horizontal",
 	);
-	const [positionedShips, setPositionedShips] = useState<Set<number>>(
+	const [, setPositionedShips] = useState<Set<number>>(
 		new Set(),
 	);
 	const [selectedShip, setSelectedShip] = useState<{
@@ -52,7 +52,7 @@ function App() {
 	});
 	const [ganhador, setGanhador] = useState(null);
 	const [loading, setLoading] = useState(true);
-	const [forceRender, setForceRender] = useState(false);
+	const [, setForceRender] = useState(false);
 
 	useEffect(() => {
     const timer = setTimeout(() => {
