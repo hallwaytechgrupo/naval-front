@@ -59,13 +59,13 @@ const AttackBoard: React.FC<BoardProps> = ({
 					{board.map((row, rowIndex) => (
 						<React.Fragment key={rowIndex}>
 							{/* Letter header */}
-							<div className="flex items-center justify-center w-6 h-6 sm:w-10 sm:h-10 text-white">
+							<div className="flex items-center justify-center w-8 h-8 sm:w-8 sm:h-8 text-white">
 								{letters[rowIndex]}
 							</div>
 							{row.map((cell, cellIndex) => (
 								<div
 									key={cellIndex}
-									className={`w-6 h-6 sm:w-10 sm:h-10 border border-gray-700 rounded-md ${!disabled ? "hover:bg-gray-500" : ""}`}
+									className={`w-6 h-6 sm:w-8 sm:h-8 border border-gray-700 rounded-md ${!disabled ? "hover:bg-gray-500" : ""}`}
 									style={{
 										backgroundColor: cell || "bg-gray-600",
 										cursor: disabled ? "not-allowed" : "pointer",
