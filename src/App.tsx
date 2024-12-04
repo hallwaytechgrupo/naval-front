@@ -10,7 +10,12 @@ import io from "socket.io-client";
 import PositionBoard from "./components/PositionBoard";
 import AttackBoard from "./components/AttackBoard";
 
-const socket = io("https://lobster-app-5i3ni.ondigitalocean.app");
+const socketUrl =
+  import.meta.env.NODE_ENV === "production"
+    ? import.meta.env.VITE_SOCKET_URL_PROD
+    : import.meta.env.VITE_SOCKET_URL_DEV;
+
+const socket = io(socketUrl);
 
 function App() {
 	const [playerId, setPlayerId] = useState<number | null>(null);
@@ -371,7 +376,22 @@ function App() {
 	};
 
 	const handleShipPlacement = async (rowIndex: number, cellIndex: number) => {
+		// aqui
 		if (selectedShip) {
+			socket.emit('getFase', (response: { fase: number }) => {
+				const { fase } = response;
+				if (fase === 0) {
+					setFase("posicionamento");
+					setTitle("Fase de posicionamento");
+					setJogadorAtual(999);
+				} else if (fase === 1) {
+					setFase("ataque");
+					setTitle("Fase de ataque");
+				} else if (fase === 2) {
+					setFase("fim");
+					setTitle("Fim de jogo");
+				}
+			});
 			if (positionedShips.has(selectedShip.size)) {
 				setMessage("Posicione outro tipo de navio.");
 				return;

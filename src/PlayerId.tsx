@@ -22,7 +22,7 @@ const PlayerIdModal: React.FC<PlayerIdModalProps> = ({ onSubmit }) => {
 			className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75"
 			style={{
 				backgroundImage:
-					"url(./assets/bg.jpg)",
+					"url(src/assets/bg.jpg)",
 				backgroundSize: "cover",
 				backgroundPosition: "center",
 			}}
